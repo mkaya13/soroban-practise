@@ -1,6 +1,6 @@
 #![cfg(test)]
 use crate::{SimpleStringContract, SimpleStringContractClient};
-use soroban_sdk::{Env, log, symbol_short};
+use soroban_sdk::{Env, log, symbol_short, Symbol};
 
 #[test]
 fn test_simple_string_contract() {
@@ -11,9 +11,7 @@ fn test_simple_string_contract() {
     log!(&env, "Starting set_user_name test");
     let user_name = symbol_short!("Mert");
 
-    client.set_user_name(&user_name);
-
-    assert_eq!(client.get_user_name(), user_name);
+    assert_eq!(client.set_user_name(&user_name), symbol_short!("Mert"));
 
     log!(&env, "Current User Name:", client.get_user_name())
 }

@@ -1,21 +1,15 @@
 #![cfg(test)]
-
-use super::*;
-use soroban_sdk::{vec, Env, String};
+use crate::{IncrementContract, IncrementContractClient};
+use soroban_sdk::Env;
 
 #[test]
 fn test() {
     let env = Env::default();
-    let contract_id = env.register(Contract, ());
-    let client = ContractClient::new(&env, &contract_id);
+    let contract_id = env.register(IncrementContract, ());
+    let client = IncrementContractClient::new(&env, &contract_id);
+    
 
-    let words = client.hello(&String::from_str(&env, "Dev"));
-    assert_eq!(
-        words,
-        vec![
-            &env,
-            String::from_str(&env, "Hello"),
-            String::from_str(&env, "Dev"),
-        ]
-    );
+    assert_eq!(client.increment(), 1);
+    assert_eq!(client.increment(), 2);
+    assert_eq!(client.increment(), 3);
 }

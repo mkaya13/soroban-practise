@@ -203,5 +203,11 @@ stellar contract invoke `
 stellar contract invoke --id CBGCX4UFHIM7VYTAUNXT7F6BCEOLD5UVSSFHQBRVA324YGHO7D4QOC2A --source alice --network testnet -- hello --to RPC
 ```
 
+# 3. Storing Data
 
+Create a new contract called "increment"
+
+```
+stellar contract init . --name increment
+```
 

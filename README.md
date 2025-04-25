@@ -211,3 +211,58 @@ Create a new contract called "increment"
 stellar contract init . --name increment
 ```
 
+
+```
+stellar contract build  
+```
+
+```
+ls target/wasm32-unknown-unknown/release/*.wasm
+```
+
+```
+stellar contract optimize --wasm target/wasm32-unknown-unknown/release/increment.wasm
+```
+
+```
+stellar contract deploy --wasm target/wasm32-unknown-unknown/release/increment.wasm --source alice --network testnet --alias increment
+```
+
+https://stellar.expert/explorer/testnet/contract/CDZRJLICDQA2H7NROUFX6PYOYW53IQ433SA7CSN6UO6B54DN6VPTHZQR
+CDZRJLICDQA2H7NROUFX6PYOYW53IQ433SA7CSN6UO6B54DN6VPTHZQ
+
+## Tests
+
+Replace the placeholder code in contracts/increment/src/test.rs with the following increment test code.
+
+```
+#![cfg(test)]
+use crate::{IncrementContract, IncrementContractClient};
+use soroban_sdk::Env;
+
+#[test]
+fn test() {
+    let env = Env::default();
+    let contract_id = env.register(IncrementContract, ());
+    let client = IncrementContractClient::new(&env, &contract_id);
+
+    assert_eq!(client.increment(), 1);
+    assert_eq!(client.increment(), 2);
+    assert_eq!(client.increment(), 3);
+}
+```
+
+Run the code below:
+```
+cargo test
+```
+
+If you want to see the output of the testing, run the following code:
+
+```
+cargo test -- --nocapture
+```
+
+## Take it further
+
+Can you figure out how to add get_current_value function to the contract? What about decrement or reset functions?

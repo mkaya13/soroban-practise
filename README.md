@@ -266,3 +266,12 @@ cargo test -- --nocapture
 ## Take it further
 
 Can you figure out how to add get_current_value function to the contract? What about decrement or reset functions?
+
+
+# 3 Simple String Contract
+
+To build all the smart contracts, run:
+
+cargo build --workspace --target wasm32-unknown-unknown --release
+
+stellar contract optimize --wasm target/wasm32-unknown-unknown/release/simple_string_contract.wasm

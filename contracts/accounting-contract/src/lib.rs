@@ -23,7 +23,6 @@ impl AccountingContract {
         // Require authentication from the user
         address.require_auth();
 
-
         // Try to get existing Vec<UserProfile>, or create an empty one
         let mut profiles = env.storage().instance().get::<Symbol, Vec<UserProfile>>(&ALL_USERS_KEY).unwrap_or(Vec::new(&env));
 

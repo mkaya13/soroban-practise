@@ -57,7 +57,7 @@ fn test_accounting_contract() {
         log!(&env, "Username: ", user.username);
         log!(&env, "Age: ", user.age);
         log!(&env, "Address: ", user.address);
-}
+    }   
 
 }
 

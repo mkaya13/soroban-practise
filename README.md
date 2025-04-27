@@ -272,12 +272,115 @@ Can you figure out how to add get_current_value function to the contract? What a
 
 To build all the smart contracts, run:
 
+```
 cargo build --workspace --target wasm32-unknown-unknown --release
+```
 
+```
 stellar contract optimize --wasm target/wasm32-unknown-unknown/release/simple_string_contract.wasm
-
-
+```
 
 # 4 Accounting Contract
 
 Struct --> https://developers.stellar.org/docs/learn/encyclopedia/contract-development/types/custom-types
+
+
+# Simple String Contract
+
+## Deploy
+stellar contract deploy --wasm target/wasm32-unknown-unknown/release/simple_string_contract.wasm --source alice --network testnet --alias simple-string-contract
+
+🔗 https://stellar.expert/explorer/testnet/contract/CB2CMITJWD2D4R7Q4KASOLGS6225ZEIESFZURJBK6U2N25ARVHLFXVZP
+✅ Deployed!
+CAZNVFCZ2KFSAKH67H4FBIYKZNO572VFLJORKZOLXRGTLKTTO547SWVE
+
+## Invoke set_user_name
+stellar contract invoke --id CAZNVFCZ2KFSAKH67H4FBIYKZNO572VFLJORKZOLXRGTLKTTO547SWVE --source alice --network testnet -- get_user_name
+
+## Invoke get_user_name with Mert function parameter
+stellar contract invoke --id CAZNVFCZ2KFSAKH67H4FBIYKZNO572VFLJORKZOLXRGTLKTTO547SWVE --source alice --network testnet -- set_user_name --value Mert
+
+# Stellar Asset Contract
+https://developers.stellar.org/docs/build/guides/tokens/deploying-a-sac
+
+## Deploy
+stellar contract deploy --wasm target/wasm32-unknown-unknown/release/simple_string_contract.wasm --source alice --network testnet --alias simple-string-contract
+
+🔗 https://stellar.expert/explorer/testnet/contract/CCJF5DJLXRQB44BRYLZJNUSHZMOM3GVNJQDP5M7DW2IEL6HRQQWE57GL
+✅ Deployed!
+CCJF5DJLXRQB44BRYLZJNUSHZMOM3GVNJQDP5M7DW2IEL6HRQQWE57GL
+
+## Invoke deploy_sac
+
+stellar contract invoke --id CCJF5DJLXRQB44BRYLZJNUSHZMOM3GVNJQDP5M7DW2IEL6HRQQWE57GL --source alice --network testnet -- deploy_sac --serialized_asset 0000000144414d31000000000000000000000000000000000000000000000000000000000000000000000000
+
+serialized_asset is the Stellar Asset XDR serialized to bytes. Refer to [soroban_sdk::xdr::Asset] XDR
+
+```
+#![cfg(test)]
+
+extern crate alloc;
+use alloc::vec::Vec;
+
+use crate::{StellarAssetContract, StellarAssetContractClient};
+use soroban_sdk::{Bytes, Env, log};
+use soroban_sdk::xdr::{AccountId, Asset, AlphaNum4, AssetCode4, PublicKey, Uint256, Limits, WriteXdr};
+
+/* 
+​To deploy a Stellar Asset Contract (SAC) using the Soroban SDK, you need to serialize both the asset code and 
+the issuer's address into the appropriate XDR format. This serialized asset is then passed to the with_stellar_asset 
+method for deployment.
+*/
+
+#[test]
+fn test_stellar_asset_contract_1() {
+    let env = Env::default();
+    let contract_id = env.register(StellarAssetContract, ());
+    let client = StellarAssetContractClient::new(&env, &contract_id);
+
+    pub fn create_serialized_asset(env: &Env) -> Bytes {
+        let asset_code = AssetCode4(*b"USDC"); // Must be 4 bytes
+        let issuer = AccountId(PublicKey::PublicKeyTypeEd25519(Uint256([0u8; 32])));
+    
+        let alpha_num4 = AlphaNum4 {
+            asset_code,
+            issuer,
+        };
+    
+        let asset = Asset::CreditAlphanum4(alpha_num4);
+    
+        let serialized: Vec<u8> = asset.to_xdr(Limits::none()).expect("serialization failed");
+    
+        let bytes = Bytes::from_slice(env, &serialized);
+
+        log!(env, "Serialized Asset Bytes (hex):", bytes);
+
+        bytes
+    }
+
+    create_serialized_asset(&env);
+
+}
+```
+
+```
+pub enum Asset {
+    Native,
+    CreditAlphanum4(AlphaNum4),
+    CreditAlphanum12(AlphaNum12),
+}
+
+pub struct AlphaNum4 {
+    pub asset_code: AssetCode4,
+    pub issuer: AccountId,
+}
+
+pub struct AssetCode4(pub [u8; 4]);
+pub fn as_slice(&self) -> &[u8]
+
+pub struct AlphaNum12 {
+    pub asset_code: AssetCode12,
+    pub issuer: AccountId,
+}
+
+```

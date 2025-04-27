@@ -1,6 +1,6 @@
 #![cfg(test)]
 use crate::{SimpleStringContract, SimpleStringContractClient};
-use soroban_sdk::{Env, log, symbol_short, Symbol};
+use soroban_sdk::{Env, log, symbol_short};
 
 #[test]
 fn test_simple_string_contract() {

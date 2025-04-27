@@ -275,3 +275,9 @@ To build all the smart contracts, run:
 cargo build --workspace --target wasm32-unknown-unknown --release
 
 stellar contract optimize --wasm target/wasm32-unknown-unknown/release/simple_string_contract.wasm
+
+
+
+# 4 Accounting Contract
+
+Struct --> https://developers.stellar.org/docs/learn/encyclopedia/contract-development/types/custom-types

@@ -384,3 +384,38 @@ pub struct AlphaNum12 {
 }
 
 ```
+
+# Crowdfunding Contract
+
+```
+stellar contract deploy --wasm .\target\wasm32-unknown-unknown\release\crowdfunding_contract.optimized.wasm --source alice --network testnet --alias crowdfunding-contract
+```
+
+- 🔗 https://stellar.expert/explorer/testnet/contract/CDBJLX5EKCYSEYUKLQ32K37LFSWBLYGDHPFOLEHZAARFC55L5ON24UWN
+- ✅ Deployed!
+- ⚠️  Overwriting existing contract id: CBXLTLTL37IJNKZUNC2UQY3ZEVRTLV56NWVIRJO3VELBYU3X6UD2S5BS
+- CDBJLX5EKCYSEYUKLQ32K37LFSWBLYGDHPFOLEHZAARFC55L5ON24UWN
+
+## Invoke the Initialize Function - 
+
+```
+stellar contract invoke --id CDBJLX5EKCYSEYUKLQ32K37LFSWBLYGDHPFOLEHZAARFC55L5ON24UWN --source alice --network testnet -- initialize --recipient GCMPPXWUJGFPFXOMH3LUCBGFBTQMIOI7VDXZH6JTV64JLUYVHQV5M7VC --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
+```
+
+## Invoke the Recipient Function - Read
+
+```
+stellar contract invoke --id CDBJLX5EKCYSEYUKLQ32K37LFSWBLYGDHPFOLEHZAARFC55L5ON24UWN --source alice --network testnet -- recipient
+```
+
+## Invoke the Token Function - Read
+
+```
+stellar contract invoke --id CDBJLX5EKCYSEYUKLQ32K37LFSWBLYGDHPFOLEHZAARFC55L5ON24UWN --source alice --network testnet -- token
+``` 
+
+## Invoke the Donate Function
+
+```
+stellar contract invoke --id CDBJLX5EKCYSEYUKLQ32K37LFSWBLYGDHPFOLEHZAARFC55L5ON24UWN --source alice --network testnet -- donate --donor GCMPPXWUJGFPFXOMH3LUCBGFBTQMIOI7VDXZH6JTV64JLUYVHQV5M7VC --amount 130000000
+```

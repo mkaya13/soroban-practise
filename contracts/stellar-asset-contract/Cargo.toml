@@ -10,6 +10,7 @@ doctest = false
 
 [dependencies]
 soroban-sdk = { workspace = true }
+stellar-strkey = "0.0.7"
 
 [dev-dependencies]
 soroban-sdk = { workspace = true, features = ["testutils"] }

@@ -1,6 +1,5 @@
-# Rust's output directory
+# Rust's Output Directory
 target
 
-# Local settings
-.soroban
+# Contract Credentials
 .stellar

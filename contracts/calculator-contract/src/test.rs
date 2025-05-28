@@ -1,12 +1,12 @@
 #![cfg(test)]
-use crate::{IncrementContract, IncrementContractClient};
+use crate::{CalculatorContract, CalculatorContractClient};
 use soroban_sdk::{Env, log};
 
 #[test]
 fn test_1() {
     let env = Env::default();
-    let contract_id = env.register(IncrementContract, ());
-    let client = IncrementContractClient::new(&env, &contract_id);
+    let contract_id = env.register(CalculatorContract, ());
+    let client = CalculatorContractClient::new(&env, &contract_id);
     
 
     log!(&env, "Starting increment test");
@@ -31,8 +31,8 @@ fn test_1() {
 #[should_panic(expected = "The COUNTER is already 0!")]
 fn test_2() {
     let env = Env::default();
-    let contract_id = env.register(IncrementContract, ());
-    let client = IncrementContractClient::new(&env, &contract_id);
+    let contract_id = env.register(CalculatorContract, ());
+    let client = CalculatorContractClient::new(&env, &contract_id);
 
     // Set counter to 0 directly (or do no increment)
     client.decrement(); // This should panic
@@ -42,8 +42,8 @@ fn test_2() {
 #[should_panic(expected = "The COUNTER cannot be halved because it is 0!")]
 fn test_halve() {
     let env = Env::default();
-    let contract_id = env.register(IncrementContract, ());
-    let client = IncrementContractClient::new(&env, &contract_id);
+    let contract_id = env.register(CalculatorContract, ());
+    let client = CalculatorContractClient::new(&env, &contract_id);
 
     // Set counter to 0 directly (or do no increment)
     client.halve(); // This should panic

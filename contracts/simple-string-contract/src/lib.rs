@@ -11,14 +11,11 @@ impl SimpleStringContract {
     
     pub fn set_user_name(env: Env, value: Symbol) -> Symbol {
         env.storage().instance().set(&USERNAME, &value);
-        env.storage().instance().extend_ttl(50, 100);
         value
     }
 
     pub fn get_user_name(env: Env) -> Symbol {
         
-        // let username = env.storage().instance().get::<Symbol, Symbol>(&USERNAME).unwrap_or(symbol_short!(""));
-
         let username = env.storage().instance().get(&USERNAME).unwrap_or_else(|| symbol_short!(""));
         
         log!(&env, "Current User Name: {}", username);

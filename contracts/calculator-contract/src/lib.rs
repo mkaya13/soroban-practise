@@ -4,17 +4,16 @@ use soroban_sdk::{contract, contractimpl, log, symbol_short, Env, Symbol};
 const COUNTER: Symbol = symbol_short!("COUNTER");
 
 #[contract]
-pub struct IncrementContract;
+pub struct CalculatorContract;
 
 #[contractimpl]
-impl IncrementContract {
+impl CalculatorContract {
     /// Increment increments an internal counter, and returns the value.
     pub fn increment(env: Env) -> u32 {
         let mut count: u32 = env.storage().instance().get(&COUNTER).unwrap_or(0);
 
         count += 1;
         env.storage().instance().set(&COUNTER, &count);
-        env.storage().instance().extend_ttl(50, 100);
 
         log!(&env, "COUNTER: {}", count);
 
@@ -30,7 +29,6 @@ impl IncrementContract {
 
         count -= 1;
         env.storage().instance().set(&COUNTER, &count);
-        env.storage().instance().extend_ttl(50, 100);
 
         log!(&env, "COUNTER: {}", count);
 
@@ -42,7 +40,6 @@ impl IncrementContract {
 
         count *= 2;
         env.storage().instance().set(&COUNTER, &count);
-        env.storage().instance().extend_ttl(50, 100);
 
         log!(&env, "COUNTER: {}", count);
 
@@ -58,7 +55,6 @@ impl IncrementContract {
 
         count /= 2;
         env.storage().instance().set(&COUNTER, &count);
-        env.storage().instance().extend_ttl(50, 100);
 
         log!(&env, "COUNTER: {}", count);
 
